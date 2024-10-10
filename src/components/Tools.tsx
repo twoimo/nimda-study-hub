@@ -52,9 +52,9 @@ const Tools: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       <div className="cyberpunk-card p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
+        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center">
           <Lock className="mr-2" /> Password Strength Checker
         </h2>
         <input
@@ -64,13 +64,13 @@ const Tools: React.FC = () => {
           onChange={handlePasswordChange}
           className="w-full p-2 mb-2 bg-gray-800 text-green-500 border border-green-500 rounded"
         />
-        <p>Strength: <span className={`font-bold ${
+        <p className="text-sm">Strength: <span className={`font-bold ${
           passwordStrength === 'Strong' ? 'text-green-500' :
           passwordStrength === 'Medium' ? 'text-yellow-500' :
           'text-red-500'
         }`}>{passwordStrength}</span></p>
         {passwordStrength && (
-          <ul className="mt-2 text-sm">
+          <ul className="mt-2 text-xs md:text-sm">
             <li>✓ At least 12 characters long</li>
             <li>✓ Contains uppercase and lowercase letters</li>
             <li>✓ Contains numbers</li>
@@ -80,7 +80,7 @@ const Tools: React.FC = () => {
       </div>
 
       <div className="cyberpunk-card p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
+        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center">
           <Hash className="mr-2" /> Text Hasher
         </h2>
         <input
@@ -90,19 +90,19 @@ const Tools: React.FC = () => {
           onChange={(e) => setPlaintext(e.target.value)}
           className="w-full p-2 mb-2 bg-gray-800 text-green-500 border border-green-500 rounded"
         />
-        <button onClick={hashText} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 mb-2">
+        <button onClick={hashText} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 mb-2 text-sm">
           Hash Text
         </button>
         {hashedText && (
           <div>
-            <p className="font-bold">Hashed Text:</p>
-            <p className="break-all bg-gray-700 p-2 rounded">{hashedText}</p>
+            <p className="font-bold text-sm">Hashed Text:</p>
+            <p className="break-all bg-gray-700 p-2 rounded text-xs md:text-sm">{hashedText}</p>
           </div>
         )}
       </div>
 
       <div className="cyberpunk-card p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
+        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center">
           <Wifi className="mr-2" /> Port Scanner
         </h2>
         <input
@@ -112,19 +112,19 @@ const Tools: React.FC = () => {
           onChange={(e) => setIpAddress(e.target.value)}
           className="w-full p-2 mb-2 bg-gray-800 text-green-500 border border-green-500 rounded"
         />
-        <button onClick={simulatePortScan} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 mb-2">
+        <button onClick={simulatePortScan} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 mb-2 text-sm">
           Scan Ports
         </button>
         {portScanResult && (
           <div>
-            <p className="font-bold">Scan Results:</p>
-            <pre className="bg-gray-700 p-2 rounded whitespace-pre-wrap">{portScanResult}</pre>
+            <p className="font-bold text-sm">Scan Results:</p>
+            <pre className="bg-gray-700 p-2 rounded whitespace-pre-wrap text-xs md:text-sm">{portScanResult}</pre>
           </div>
         )}
       </div>
 
       <div className="cyberpunk-card p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
+        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center">
           <AlertTriangle className="mr-2" /> Malware Detection
         </h2>
         <textarea
@@ -134,13 +134,13 @@ const Tools: React.FC = () => {
           className="w-full p-2 mb-2 bg-gray-800 text-green-500 border border-green-500 rounded"
           rows={4}
         />
-        <button onClick={simulateMalwareDetection} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 mb-2">
+        <button onClick={simulateMalwareDetection} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 mb-2 text-sm">
           Analyze for Malware
         </button>
         {malwareDetectionResult && (
           <div>
-            <p className="font-bold">Analysis Result:</p>
-            <p className={`p-2 rounded ${malwareDetectionResult.includes('No malware') ? 'bg-green-700' : 'bg-red-700'}`}>
+            <p className="font-bold text-sm">Analysis Result:</p>
+            <p className={`p-2 rounded text-xs md:text-sm ${malwareDetectionResult.includes('No malware') ? 'bg-green-700' : 'bg-red-700'}`}>
               {malwareDetectionResult}
             </p>
           </div>

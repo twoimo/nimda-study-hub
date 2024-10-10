@@ -74,70 +74,70 @@ const Dashboard: React.FC = () => {
   }), [])
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
       <section className="cyberpunk-card p-4 rounded-lg col-span-full">
-        <h2 className="text-2xl font-bold mb-4 flex items-center">
+        <h2 className="text-xl md:text-2xl font-bold mb-4 flex items-center">
           <Shield className="mr-2" /> Hacker Dashboard
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-blue-600 p-4 rounded-lg flex items-center justify-between">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-blue-600 p-3 md:p-4 rounded-lg flex items-center justify-between">
             <div>
-              <p className="text-white text-sm">Total Users</p>
-              <p className="text-white text-2xl font-bold">{userCount}</p>
+              <p className="text-white text-xs md:text-sm">Total Users</p>
+              <p className="text-white text-lg md:text-2xl font-bold">{userCount}</p>
             </div>
-            <Users size={32} className="text-white" />
+            <Users size={24} className="text-white" />
           </div>
-          <div className="bg-green-600 p-4 rounded-lg flex items-center justify-between">
+          <div className="bg-green-600 p-3 md:p-4 rounded-lg flex items-center justify-between">
             <div>
-              <p className="text-white text-sm">Discussions</p>
-              <p className="text-white text-2xl font-bold">{discussionCount}</p>
+              <p className="text-white text-xs md:text-sm">Discussions</p>
+              <p className="text-white text-lg md:text-2xl font-bold">{discussionCount}</p>
             </div>
-            <MessageSquare size={32} className="text-white" />
+            <MessageSquare size={24} className="text-white" />
           </div>
-          <div className="bg-yellow-600 p-4 rounded-lg flex items-center justify-between">
+          <div className="bg-yellow-600 p-3 md:p-4 rounded-lg flex items-center justify-between">
             <div>
-              <p className="text-white text-sm">Success Rate</p>
-              <p className="text-white text-2xl font-bold">{hackSuccessRate}%</p>
+              <p className="text-white text-xs md:text-sm">Success Rate</p>
+              <p className="text-white text-lg md:text-2xl font-bold">{hackSuccessRate}%</p>
             </div>
-            <TrendingUp size={32} className="text-white" />
+            <TrendingUp size={24} className="text-white" />
           </div>
-          <div className="bg-red-600 p-4 rounded-lg flex items-center justify-between">
+          <div className="bg-red-600 p-3 md:p-4 rounded-lg flex items-center justify-between">
             <div>
-              <p className="text-white text-sm">Active Threats</p>
-              <p className="text-white text-2xl font-bold">{Math.floor(Math.random() * 10) + 1}</p>
+              <p className="text-white text-xs md:text-sm">Active Threats</p>
+              <p className="text-white text-lg md:text-2xl font-bold">{Math.floor(Math.random() * 10) + 1}</p>
             </div>
-            <AlertTriangle size={32} className="text-white" />
+            <AlertTriangle size={24} className="text-white" />
           </div>
         </div>
       </section>
 
-      <section className="cyberpunk-card p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
+      <section className="cyberpunk-card p-4 rounded-lg col-span-full md:col-span-1">
+        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center">
           <Zap className="mr-2" /> Live Hack Feed
         </h2>
-        <div className="live-feed p-2 h-64 overflow-y-auto">
+        <div className="live-feed p-2 h-48 md:h-64 overflow-y-auto">
           {liveFeed.map((hack) => (
-            <p key={hack.id} className="mb-1 terminal-text">
+            <p key={hack.id} className="mb-1 terminal-text text-xs md:text-sm">
               [{new Date(hack.timestamp).toLocaleTimeString()}] {hack.action} {hack.target} in {hack.location}
             </p>
           ))}
         </div>
       </section>
 
-      <section className="cyberpunk-card p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
+      <section className="cyberpunk-card p-4 rounded-lg col-span-full md:col-span-1">
+        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center">
           <PieChart className="mr-2" /> Hack Success Rate
         </h2>
-        <div className="h-64">
+        <div className="h-48 md:h-64">
           <Pie data={pieChartData} options={{ responsive: true, maintainAspectRatio: false }} />
         </div>
       </section>
 
-      <section className="cyberpunk-card p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
+      <section className="cyberpunk-card p-4 rounded-lg col-span-full md:col-span-1">
+        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center">
           <BarChart2 className="mr-2" /> Hack Attempts by Category
         </h2>
-        <div className="h-64">
+        <div className="h-48 md:h-64">
           <Bar 
             data={barChartData} 
             options={{ 
@@ -154,25 +154,25 @@ const Dashboard: React.FC = () => {
       </section>
 
       <section className="cyberpunk-card p-4 rounded-lg col-span-full">
-        <h2 className="text-xl font-bold mb-4 flex items-center">
+        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center">
           <Shield className="mr-2" /> Hacking Categories
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-gray-800 p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
-            <p className="text-lg font-semibold">Network Security</p>
-            <p className="text-sm text-gray-400">Explore network vulnerabilities</p>
+          <div className="bg-gray-800 p-3 md:p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
+            <p className="text-sm md:text-lg font-semibold">Network Security</p>
+            <p className="text-xs md:text-sm text-gray-400">Explore network vulnerabilities</p>
           </div>
-          <div className="bg-gray-800 p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
-            <p className="text-lg font-semibold">Web Exploitation</p>
-            <p className="text-sm text-gray-400">Discover web app weaknesses</p>
+          <div className="bg-gray-800 p-3 md:p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
+            <p className="text-sm md:text-lg font-semibold">Web Exploitation</p>
+            <p className="text-xs md:text-sm text-gray-400">Discover web app weaknesses</p>
           </div>
-          <div className="bg-gray-800 p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
-            <p className="text-lg font-semibold">Cryptography</p>
-            <p className="text-sm text-gray-400">Break and make secure systems</p>
+          <div className="bg-gray-800 p-3 md:p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
+            <p className="text-sm md:text-lg font-semibold">Cryptography</p>
+            <p className="text-xs md:text-sm text-gray-400">Break and make secure systems</p>
           </div>
-          <div className="bg-gray-800 p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
-            <p className="text-lg font-semibold">Reverse Engineering</p>
-            <p className="text-sm text-gray-400">Analyze and modify binaries</p>
+          <div className="bg-gray-800 p-3 md:p-4 rounded-lg text-center hover:bg-gray-700 transition-colors duration-300 cursor-pointer">
+            <p className="text-sm md:text-lg font-semibold">Reverse Engineering</p>
+            <p className="text-xs md:text-sm text-gray-400">Analyze and modify binaries</p>
           </div>
         </div>
       </section>
