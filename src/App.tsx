@@ -15,7 +15,6 @@ import Forum from "./components/Forum";
 import Tools from "./components/Tools";
 import Profile from "./components/Profile";
 import HackingCategories from "./components/HackingCategories";
-import Signup from "./components/Signup";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -103,11 +102,6 @@ const App: React.FC = () => {
           >
             Access System
           </button>
-          <div className="mt-4 text-center">
-            <Link to="/signup" className="text-green-500 hover:text-green-400">
-              Don't have an account? Sign Up
-            </Link>
-          </div>
         </form>
       </div>
     );
@@ -195,8 +189,6 @@ const App: React.FC = () => {
               element={<Profile currentUser={currentUser} />}
             />
             <Route path="/categories" element={<HackingCategories />} />
-            <Route path="/signup" element={<Signup />} />{" "}
-            {/* New Signup Route */}
           </Routes>
         </main>
 
