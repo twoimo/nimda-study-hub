@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import {
   Terminal,
   Shield,
@@ -56,6 +62,7 @@ const App: React.FC = () => {
         setCurrentUser(user);
         setIsAuthenticated(true);
         localStorage.setItem("currentUser", JSON.stringify(user));
+        navigate("/"); // Redirect to Dashboard
       } else {
         const errorData = await response.json();
         alert(`Login failed: ${errorData.message}`);
