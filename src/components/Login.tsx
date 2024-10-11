@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const navigate = useNavigate();
@@ -50,6 +50,8 @@ const Login: React.FC = () => {
           type="text"
           name="username"
           placeholder="Username"
+          value={formData.username}
+          onChange={handleChange}
           className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
         />
         <input
