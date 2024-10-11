@@ -62,7 +62,7 @@ const App: React.FC = () => {
         setCurrentUser(user);
         setIsAuthenticated(true);
         localStorage.setItem("currentUser", JSON.stringify(user));
-        navigate("/"); // Redirect to Dashboard
+        navigate("/dashboard"); // Redirect to Dashboard
       } else {
         const errorData = await response.json();
         alert(`Login failed: ${errorData.message}`);
