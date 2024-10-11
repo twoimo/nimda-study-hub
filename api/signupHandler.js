@@ -2,43 +2,66 @@ import { createClient } from "@vercel/postgres";
 import bcrypt from "bcrypt";
 
 const client = createClient();
+const saltRounds = 10;
 
 export default async (req, res) => {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { username, password } = req.body;
+  const {
+    username,
+    password,
+    email,
+    fullName,
+    bio,
+    avatar,
+    location,
+    occupation,
+    twitterHandle,
+    linkedinUrl,
+    githubUsername,
+  } = req.body;
 
   try {
     await client.connect();
 
-    // Fetch the user from the database
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Insert into users table
     const userQuery = `
-      SELECT id, password
-      FROM users
-      WHERE username = $1
+      INSERT INTO users (username, password, email)
+      VALUES ($1, $2, $3)
+      RETURNING id
     `;
-    const userResult = await client.query(userQuery, [username]);
+    const userValues = [username, hashedPassword, email];
+    const userResult = await client.query(userQuery, userValues);
+    const userId = userResult.rows[0].id;
 
-    if (userResult.rows.length === 0) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    const user = userResult.rows[0];
-
-    // Compare the provided password with the hashed password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
+    // Insert into user_profiles table
+    const profileQuery = `
+      INSERT INTO user_profiles (id, full_name, bio, avatar, location, occupation, twitter_handle, linkedin_url, github_username)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    `;
+    const profileValues = [
+      userId,
+      fullName,
+      bio,
+      avatar,
+      location,
+      occupation,
+      twitterHandle,
+      linkedinUrl,
+      githubUsername,
+    ];
+    await client.query(profileQuery, profileValues);
 
     await client.end();
 
-    res.status(200).json({ id: user.id, username });
+    res.status(200).json({ message: "Signup successful" });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "An error occurred during login" });
+    console.error("Signup error:", error);
+    res.status(500).json({ message: "An error occurred during signup" });
   }
 };
