@@ -1,6 +1,6 @@
-import { Client } from "@vercel/postgres";
+import { createClient } from "@vercel/postgres";
 
-const client = new Client();
+const client = createClient();
 
 export default async (req, res) => {
   if (req.method !== "POST") {
