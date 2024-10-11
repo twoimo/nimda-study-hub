@@ -16,6 +16,7 @@ import Tools from "./components/Tools";
 import Profile from "./components/Profile";
 import HackingCategories from "./components/HackingCategories";
 import Signup from "./components/Signup";
+import Login from "./components/Login";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -214,7 +215,8 @@ const App: React.FC = () => {
               </footer>
             </>
           )}
-          <Route path="/signup" element={<Signup />} /> {/* New Signup Route */}
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>
