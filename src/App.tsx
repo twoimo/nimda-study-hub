@@ -14,6 +14,7 @@ import Dashboard from "./components/Dashboard";
 import Forum from "./components/Forum";
 import Tools from "./components/Tools";
 import Profile from "./components/Profile";
+import Signup from "./components/Signup";
 import HackingCategories from "./components/HackingCategories";
 
 const App: React.FC = () => {
