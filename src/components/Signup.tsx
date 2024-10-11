@@ -15,6 +15,9 @@ const Signup: React.FC = () => {
     linkedinUrl: "",
     githubUsername: "",
   });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (
@@ -28,8 +31,24 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    // 클라이언트 측 유효성 검사
+    if (!formData.username || !formData.password || !formData.email) {
+      setError("필수 필드를 모두 입력해 주세요.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("유효한 이메일 주소를 입력해 주세요.");
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
-      console.log("Submitting data:", formData);
       const response = await fetch("/api/signupHandler", {
         method: "POST",
         headers: {
@@ -38,13 +57,17 @@ const Signup: React.FC = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        navigate("/login"); // Redirect to Login page
+        setSuccess("회원가입이 완료되었습니다. 로그인 해주세요.");
+        setTimeout(() => navigate("/"), 2000); // 2초 후 로그인 페이지로 리디렉션
       } else {
-        alert("Signup failed");
+        const errorData = await response.json();
+        setError(errorData.message || "회원가입에 실패했습니다.");
       }
     } catch (error) {
       console.error("Signup error:", error);
-      alert("An error occurred during signup. Please try again.");
+      setError("회원가입 중 문제가 발생했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -57,6 +80,8 @@ const Signup: React.FC = () => {
         <h2 className="text-2xl font-bold mb-4 text-center glitch-text">
           Sign Up
         </h2>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {success && <p className="text-green-500 mb-4">{success}</p>}
         <input
           type="text"
           name="username"
@@ -64,6 +89,7 @@ const Signup: React.FC = () => {
           value={formData.username}
           onChange={handleChange}
           className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
+          required
         />
         <input
           type="password"
@@ -72,6 +98,7 @@ const Signup: React.FC = () => {
           value={formData.password}
           onChange={handleChange}
           className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
+          required
         />
         <input
           type="email"
@@ -80,6 +107,7 @@ const Signup: React.FC = () => {
           value={formData.email}
           onChange={handleChange}
           className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
+          required
         />
         <input
           type="text"
@@ -147,8 +175,9 @@ const Signup: React.FC = () => {
         <button
           type="submit"
           className="w-full p-2 bg-green-700 text-white rounded hover:bg-green-600"
+          disabled={isLoading}
         >
-          Sign Up
+          {isLoading ? "Signing Up..." : "Sign Up"}
         </button>
       </form>
     </div>
