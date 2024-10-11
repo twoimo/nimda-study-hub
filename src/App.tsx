@@ -15,7 +15,6 @@ import Forum from "./components/Forum";
 import Tools from "./components/Tools";
 import Profile from "./components/Profile";
 import HackingCategories from "./components/HackingCategories";
-import Signup from "./components/Signup"; // Signup 컴포넌트 임포트
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -207,7 +206,6 @@ const App: React.FC = () => {
               element={<Profile currentUser={currentUser} />}
             />
             <Route path="/categories" element={<HackingCategories />} />
-            <Route path="/signup" element={<Signup />} /> {/* 추가된 라우트 */}
           </Routes>
         </main>
 
