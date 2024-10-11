@@ -38,7 +38,7 @@ const Signup: React.FC = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        navigate("/login");
+        navigate("/app");
       } else {
         alert("Signup failed");
       }

@@ -216,7 +216,6 @@ const App: React.FC = () => {
             </>
           )}
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>
