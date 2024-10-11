@@ -1,8 +1,8 @@
-const { Client } = require("@vercel/postgres");
+import { Client } from "@vercel/postgres";
 
 const client = new Client();
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
