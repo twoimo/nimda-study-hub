@@ -32,6 +32,8 @@ const App: React.FC = () => {
     username: string;
   } | null>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const checkAuth = async () => {
       const storedUser = localStorage.getItem("currentUser");
@@ -80,6 +82,7 @@ const App: React.FC = () => {
       setCurrentUser(null);
       setIsLoggingOut(false);
       localStorage.removeItem("currentUser");
+      navigate("/"); // Redirect to login page
     }, 1000);
   };
 
@@ -92,47 +95,50 @@ const App: React.FC = () => {
       <div className="min-h-screen bg-black text-green-500 p-4">
         <Routes>
           {!isAuthenticated ? (
-            <Route
-              path="/"
-              element={
-                <div className="min-h-screen bg-black flex items-center justify-center p-4">
-                  <form
-                    onSubmit={handleLogin}
-                    className="bg-gray-900 p-8 rounded-lg neon-border w-full max-w-md"
-                  >
-                    <h2 className="text-2xl font-bold mb-4 text-center glitch-text">
-                      H4CK3R L0G1N
-                    </h2>
-                    <input
-                      type="text"
-                      name="username"
-                      placeholder="Username"
-                      className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
-                    />
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
-                    />
-                    <button
-                      type="submit"
-                      className="w-full p-2 bg-green-700 text-white rounded hover:bg-green-600"
+            <>
+              <Route
+                path="/"
+                element={
+                  <div className="min-h-screen bg-black flex items-center justify-center p-4">
+                    <form
+                      onSubmit={handleLogin}
+                      className="bg-gray-900 p-8 rounded-lg neon-border w-full max-w-md"
                     >
-                      Access System
-                    </button>
-                    <div className="mt-4 text-center">
-                      <Link
-                        to="/signup"
-                        className="text-green-500 hover:text-green-400"
+                      <h2 className="text-2xl font-bold mb-4 text-center glitch-text">
+                        H4CK3R L0G1N
+                      </h2>
+                      <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
+                      />
+                      <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
+                      />
+                      <button
+                        type="submit"
+                        className="w-full p-2 bg-green-700 text-white rounded hover:bg-green-600"
                       >
-                        Don't have an account? Sign Up
-                      </Link>
-                    </div>
-                  </form>
-                </div>
-              }
-            />
+                        Access System
+                      </button>
+                      <div className="mt-4 text-center">
+                        <Link
+                          to="/signup"
+                          className="text-green-500 hover:text-green-400"
+                        >
+                          Don't have an account? Sign Up
+                        </Link>
+                      </div>
+                    </form>
+                  </div>
+                }
+              />
+              <Route path="/signup" element={<Signup />} />
+            </>
           ) : (
             <>
               <header className="flex justify-between items-center mb-8">
@@ -153,7 +159,7 @@ const App: React.FC = () => {
                     } md:flex flex-col md:flex-row absolute md:relative top-16 right-4 md:top-auto md:right-auto bg-gray-900 md:bg-transparent p-4 md:p-0 rounded-lg md:rounded-none shadow-lg md:shadow-none z-50`}
                   >
                     <Link
-                      to="/"
+                      to="/dashboard"
                       className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -203,7 +209,7 @@ const App: React.FC = () => {
 
               <main>
                 <Routes>
-                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
                   <Route
                     path="/forum"
                     element={<Forum currentUser={currentUser} />}
@@ -226,7 +232,6 @@ const App: React.FC = () => {
               </footer>
             </>
           )}
-          <Route path="/signup" element={<Signup />} />
         </Routes>
       </div>
     </Router>
