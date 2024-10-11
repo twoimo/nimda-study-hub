@@ -129,7 +129,7 @@ const App: React.FC = () => {
       <div className="min-h-screen bg-black text-green-500 p-4">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-2xl md:text-3xl font-bold glitch-text">
-            N1MD4 Le4rn1ng Hub
+            N1MD4 LE4RN1NG HUB
           </h1>
           <div className="flex items-center">
             <button
