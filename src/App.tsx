@@ -5,6 +5,7 @@ import {
   Routes,
   Link,
   useNavigate,
+  Navigate,
 } from "react-router-dom";
 import {
   Terminal,
@@ -21,7 +22,6 @@ import Tools from "./components/Tools";
 import Profile from "./components/Profile";
 import HackingCategories from "./components/HackingCategories";
 import Signup from "./components/Signup";
-import Login from "./components/Login";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -138,6 +138,7 @@ const App: React.FC = () => {
                 }
               />
               <Route path="/signup" element={<Signup />} />
+              <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
             <>
@@ -220,6 +221,7 @@ const App: React.FC = () => {
                     element={<Profile currentUser={currentUser} />}
                   />
                   <Route path="/categories" element={<HackingCategories />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>
               </main>
 
