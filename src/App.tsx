@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import { LogOut, Menu } from "lucide-react";
+import {
+  Terminal,
+  Shield,
+  Zap,
+  Users,
+  MessageSquare,
+  LogOut,
+  Menu,
+} from "lucide-react";
 import axios from "axios";
 import Dashboard from "./components/Dashboard";
 import Forum from "./components/Forum";
 import Tools from "./components/Tools";
 import Profile from "./components/Profile";
 import HackingCategories from "./components/HackingCategories";
-import Signup from "./components/Signup"; // Import the Signup component
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -106,12 +113,12 @@ const App: React.FC = () => {
           >
             Access System
           </button>
-          <p className="text-center mt-4">
+          {/* <p className="text-center mt-4">
             Don't have an account?{" "}
             <Link to="/signup" className="text-neon-blue hover:underline">
               Sign up
             </Link>
-          </p>
+          </p> */}
         </form>
       </div>
     );
@@ -199,8 +206,6 @@ const App: React.FC = () => {
               element={<Profile currentUser={currentUser} />}
             />
             <Route path="/categories" element={<HackingCategories />} />
-            <Route path="/signup" element={<Signup />} />{" "}
-            {/* Add the Signup route */}
           </Routes>
         </main>
 
