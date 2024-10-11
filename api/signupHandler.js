@@ -1,6 +1,8 @@
 import { createClient } from "@vercel/postgres";
+import bcrypt from "bcrypt";
 
 const client = createClient();
+const saltRounds = 10;
 
 export default async (req, res) => {
   if (req.method !== "POST") {
@@ -24,13 +26,16 @@ export default async (req, res) => {
   try {
     await client.connect();
 
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     // Insert into users table
     const userQuery = `
       INSERT INTO users (username, password, email)
       VALUES ($1, $2, $3)
       RETURNING id
     `;
-    const userValues = [username, password, email];
+    const userValues = [username, hashedPassword, email];
     const userResult = await client.query(userQuery, userValues);
     const userId = userResult.rows[0].id;
 
