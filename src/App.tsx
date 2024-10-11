@@ -4,7 +4,6 @@ import {
   Route,
   Routes,
   Link,
-  Navigate,
   useNavigate,
 } from "react-router-dom";
 import {
@@ -31,8 +30,6 @@ const App: React.FC = () => {
     id: number;
     username: string;
   } | null>(null);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -64,7 +61,7 @@ const App: React.FC = () => {
         setCurrentUser(user);
         setIsAuthenticated(true);
         localStorage.setItem("currentUser", JSON.stringify(user));
-        navigate("/dashboard"); // Redirect to Dashboard
+        navigate("/"); // Redirect to Dashboard
       } else {
         const errorData = await response.json();
         alert(`Login failed: ${errorData.message}`);
@@ -82,7 +79,6 @@ const App: React.FC = () => {
       setCurrentUser(null);
       setIsLoggingOut(false);
       localStorage.removeItem("currentUser");
-      navigate("/"); // Redirect to login page
     }, 1000);
   };
 
@@ -91,10 +87,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-green-500 p-4">
-      <Routes>
-        {!isAuthenticated ? (
-          <>
+    <Router>
+      <div className="min-h-screen bg-black text-green-500 p-4">
+        <Routes>
+          {!isAuthenticated ? (
             <Route
               path="/"
               element={
@@ -136,112 +132,104 @@ const App: React.FC = () => {
                 </div>
               }
             />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </>
-        ) : (
-          <>
-            <header className="flex justify-between items-center mb-8">
-              <h1 className="text-2xl md:text-3xl font-bold glitch-text">
-                N1MD4 Le4rn1ng Hub
-              </h1>
-              <div className="flex items-center">
-                <button
-                  onClick={toggleMenu}
-                  className="md:hidden mr-4 text-green-500 hover:text-green-400"
-                  aria-label="Toggle menu"
-                >
-                  <Menu size={24} />
-                </button>
-                <nav
-                  className={`${
-                    isMenuOpen ? "flex" : "hidden"
-                  } md:flex flex-col md:flex-row absolute md:relative top-16 right-4 md:top-auto md:right-auto bg-gray-900 md:bg-transparent p-4 md:p-0 rounded-lg md:rounded-none shadow-lg md:shadow-none z-50`}
-                >
-                  <Link
-                    to="/dashboard"
-                    className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-                    onClick={() => setIsMenuOpen(false)}
+          ) : (
+            <>
+              <header className="flex justify-between items-center mb-8">
+                <h1 className="text-2xl md:text-3xl font-bold glitch-text">
+                  N1MD4 Le4rn1ng Hub
+                </h1>
+                <div className="flex items-center">
+                  <button
+                    onClick={toggleMenu}
+                    className="md:hidden mr-4 text-green-500 hover:text-green-400"
+                    aria-label="Toggle menu"
                   >
-                    Dashboard
-                  </Link>
-                  <Link
-                    to="/forum"
-                    className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-                    onClick={() => setIsMenuOpen(false)}
+                    <Menu size={24} />
+                  </button>
+                  <nav
+                    className={`${
+                      isMenuOpen ? "flex" : "hidden"
+                    } md:flex flex-col md:flex-row absolute md:relative top-16 right-4 md:top-auto md:right-auto bg-gray-900 md:bg-transparent p-4 md:p-0 rounded-lg md:rounded-none shadow-lg md:shadow-none z-50`}
                   >
-                    Forum
-                  </Link>
-                  <Link
-                    to="/tools"
-                    className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-                    onClick={() => setIsMenuOpen(false)}
+                    <Link
+                      to="/"
+                      className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/forum"
+                      className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Forum
+                    </Link>
+                    <Link
+                      to="/tools"
+                      className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Tools
+                    </Link>
+                    <Link
+                      to="/categories"
+                      className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Categories
+                    </Link>
+                    <Link
+                      to="/profile"
+                      className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                  </nav>
+                  <button
+                    onClick={handleLogout}
+                    className={`flex items-center bg-red-700 text-white px-3 py-1 md:px-4 md:py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 ${
+                      isLoggingOut ? "animate-pulse" : ""
+                    }`}
+                    aria-label="Logout"
                   >
-                    Tools
-                  </Link>
-                  <Link
-                    to="/categories"
-                    className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Categories
-                  </Link>
-                  <Link
-                    to="/profile"
-                    className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Profile
-                  </Link>
-                </nav>
-                <button
-                  onClick={handleLogout}
-                  className={`flex items-center bg-red-700 text-white px-3 py-1 md:px-4 md:py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 ${
-                    isLoggingOut ? "animate-pulse" : ""
-                  }`}
-                  aria-label="Logout"
-                >
-                  <LogOut className="mr-1 md:mr-2" size={16} />
-                  <span className="hidden md:inline">Logout</span>
-                </button>
-              </div>
-            </header>
+                    <LogOut className="mr-1 md:mr-2" size={16} />
+                    <span className="hidden md:inline">Logout</span>
+                  </button>
+                </div>
+              </header>
 
-            <main>
-              <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route
-                  path="/forum"
-                  element={<Forum currentUser={currentUser} />}
-                />
-                <Route path="/tools" element={<Tools />} />
-                <Route
-                  path="/profile"
-                  element={<Profile currentUser={currentUser} />}
-                />
-                <Route path="/categories" element={<HackingCategories />} />
-                <Route path="*" element={<Navigate to="/dashboard" />} />
-              </Routes>
-            </main>
+              <main>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route
+                    path="/forum"
+                    element={<Forum currentUser={currentUser} />}
+                  />
+                  <Route path="/tools" element={<Tools />} />
+                  <Route
+                    path="/profile"
+                    element={<Profile currentUser={currentUser} />}
+                  />
+                  <Route path="/categories" element={<HackingCategories />} />
+                </Routes>
+              </main>
 
-            <footer className="mt-8 text-center text-xs md:text-sm">
-              <p>
-                Disclaimer: This platform is for educational purposes only.
-                Engage in ethical hacking and always obtain proper
-                authorization.
-              </p>
-            </footer>
-          </>
-        )}
-      </Routes>
-    </div>
+              <footer className="mt-8 text-center text-xs md:text-sm">
+                <p>
+                  Disclaimer: This platform is for educational purposes only.
+                  Engage in ethical hacking and always obtain proper
+                  authorization.
+                </p>
+              </footer>
+            </>
+          )}
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
-const AppWrapper: React.FC = () => (
-  <Router>
-    <App />
-  </Router>
-);
-
-export default AppWrapper;
+export default App;
