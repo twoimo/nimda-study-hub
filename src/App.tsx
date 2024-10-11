@@ -48,7 +48,10 @@ const App: React.FC = () => {
     setError("");
 
     try {
-      const response = await axios.post("/api/login", { username, password });
+      const response = await axios.post("/api/loginHandler", {
+        username,
+        password,
+      });
       if (response.status === 200) {
         const user = response.data;
         setCurrentUser(user);
