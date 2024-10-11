@@ -47,11 +47,9 @@ const Login: React.FC = () => {
           Login
         </h2>
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          type="text"
+          name="username"
+          placeholder="Username"
           className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
         />
         <input
