@@ -1,30 +1,44 @@
-const { Client } = require("@neondatabase/serverless");
+import { createClient } from "@vercel/postgres";
+import bcrypt from "bcrypt";
 
-module.exports = async (req, res) => {
+const client = createClient();
+
+export default async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
+
   const { username, password } = req.body;
-
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-  });
 
   try {
     await client.connect();
 
-    const query = "SELECT * FROM users WHERE username = $1 AND password = $2";
-    const values = [username, password];
-    const result = await client.query(query, values);
+    // Fetch the user from the database
+    const userQuery = `
+      SELECT id, password
+      FROM users
+      WHERE username = $1
+    `;
+    const userResult = await client.query(userQuery, [username]);
 
-    if (result.rows.length > 0) {
-      res.status(200).json(result.rows[0]);
-    } else {
-      res.status(401).json({ error: "Invalid credentials" });
+    if (userResult.rows.length === 0) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
+
+    const user = userResult.rows[0];
+
+    // Compare the provided password with the hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    await client.end();
+
+    res.status(200).json({ id: user.id, username });
   } catch (error) {
     console.error("Login error:", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred during login. Please try again." });
-  } finally {
-    await client.end();
+    res.status(500).json({ message: "An error occurred during login" });
   }
 };
