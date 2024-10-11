@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
 import { Terminal, Shield, Zap, Users, MessageSquare, LogOut, Menu } from 'lucide-react'
+import { sql } from '@vercel/postgres'
 import Dashboard from './components/Dashboard'
 import Forum from './components/Forum'
 import Tools from './components/Tools'
@@ -8,18 +9,43 @@ import Profile from './components/Profile'
 import HackingCategories from './components/HackingCategories'
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false)
-  const [isLoggingOut, setIsLoggingOut] = React.useState(false)
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [currentUser, setCurrentUser] = useState<{ id: number, username: string } | null>(null)
 
-  const handleLogin = (e: React.FormEvent) => {
+  useEffect(() => {
+    const checkAuth = async () => {
+      const storedUser = localStorage.getItem('currentUser')
+      if (storedUser) {
+        setCurrentUser(JSON.parse(storedUser))
+        setIsAuthenticated(true)
+      }
+    }
+    checkAuth()
+  }, [])
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     const username = (e.currentTarget as HTMLFormElement).username.value
     const password = (e.currentTarget as HTMLFormElement).password.value
-    if (username === 'root' && password === 'root') {
-      setIsAuthenticated(true)
-    } else {
-      alert('Invalid credentials')
+
+    try {
+      const result = await sql`
+        SELECT id, username FROM users
+        WHERE username = ${username} AND password = crypt(${password}, password)
+      `
+      if (result.rows.length > 0) {
+        const user = result.rows[0]
+        setCurrentUser(user)
+        setIsAuthenticated(true)
+        localStorage.setItem('currentUser', JSON.stringify(user))
+      } else {
+        alert('Invalid credentials')
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      alert('An error occurred during login. Please try again.')
     }
   }
 
@@ -27,7 +53,9 @@ const App: React.FC = () => {
     setIsLoggingOut(true)
     setTimeout(() => {
       setIsAuthenticated(false)
+      setCurrentUser(null)
       setIsLoggingOut(false)
+      localStorage.removeItem('currentUser')
     }, 1000)
   }
 
@@ -96,9 +124,9 @@ const App: React.FC = () => {
         <main>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/forum" element={<Forum />} />
+            <Route path="/forum" element={<Forum currentUser={currentUser} />} />
             <Route path="/tools" element={<Tools />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile currentUser={currentUser} />} />
             <Route path="/categories" element={<HackingCategories />} />
           </Routes>
         </main>
