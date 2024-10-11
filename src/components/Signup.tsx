@@ -29,8 +29,8 @@ const Signup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log("Submitting data:", formData); // 로그 추가
-      const response = await fetch("/api/signup", {
+      console.log("Submitting data:", formData);
+      const response = await fetch("/api/signupHandler", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
