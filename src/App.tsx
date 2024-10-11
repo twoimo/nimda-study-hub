@@ -9,7 +9,6 @@ import {
   LogOut,
   Menu,
 } from "lucide-react";
-import { sql } from "@vercel/postgres";
 import Dashboard from "./components/Dashboard";
 import Forum from "./components/Forum";
 import Tools from "./components/Tools";
@@ -44,17 +43,22 @@ const App: React.FC = () => {
     const password = (e.currentTarget as HTMLFormElement).password.value;
 
     try {
-      const result = await sql`
-        SELECT id, username FROM users
-        WHERE username = ${username} AND password = crypt(${password}, password)
-      `;
-      if (result.rows.length > 0) {
-        const user = result.rows[0];
+      const response = await fetch("/api/loginHandler", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const user = await response.json();
         setCurrentUser(user);
         setIsAuthenticated(true);
         localStorage.setItem("currentUser", JSON.stringify(user));
       } else {
-        alert("Invalid credentials");
+        const errorData = await response.json();
+        alert(`Login failed: ${errorData.message}`);
       }
     } catch (error) {
       console.error("Login error:", error);
