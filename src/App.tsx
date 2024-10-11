@@ -113,6 +113,12 @@ const App: React.FC = () => {
           >
             Access System
           </button>
+          <p className="text-center mt-4">
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-neon-blue hover:underline">
+              Sign up
+            </Link>
+          </p>
         </form>
       </div>
     );
