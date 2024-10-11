@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const navigate = useNavigate();
@@ -29,7 +29,8 @@ const Login: React.FC = () => {
       if (response.ok) {
         navigate("/dashboard"); // Redirect to dashboard or another page after successful login
       } else {
-        alert("Login failed");
+        const errorData = await response.json();
+        alert(`Login failed: ${errorData.message}`);
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -47,10 +48,10 @@ const Login: React.FC = () => {
           Login
         </h2>
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={formData.username}
           onChange={handleChange}
           className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
         />

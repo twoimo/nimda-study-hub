@@ -8,19 +8,19 @@ export default async (req, res) => {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
     await client.connect();
 
     // Fetch user from the database
     const userQuery = `
-      SELECT id, password FROM users WHERE email = $1
+      SELECT id, password FROM users WHERE username = $1
     `;
-    const userResult = await client.query(userQuery, [email]);
+    const userResult = await client.query(userQuery, [username]);
 
     if (userResult.rows.length === 0) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
 
     const user = userResult.rows[0];
@@ -29,7 +29,7 @@ export default async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
 
     // Authentication successful
