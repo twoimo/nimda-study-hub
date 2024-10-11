@@ -9,7 +9,7 @@ import {
   LogOut,
   Menu,
 } from "lucide-react";
-import { sql } from "@vercel/postgres";
+import axios from "axios";
 import Dashboard from "./components/Dashboard";
 import Forum from "./components/Forum";
 import Tools from "./components/Tools";
@@ -24,6 +24,9 @@ const App: React.FC = () => {
     id: number;
     username: string;
   } | null>(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -38,25 +41,25 @@ const App: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const username = (e.currentTarget as HTMLFormElement).username.value;
-    const password = (e.currentTarget as HTMLFormElement).password.value;
+    if (!username || !password) {
+      setError("Both fields are required.");
+      return;
+    }
+    setError("");
 
     try {
-      const result = await sql`
-        SELECT id, username FROM users
-        WHERE username = ${username} AND password = crypt(${password}, password)
-      `;
-      if (result.rows.length > 0) {
-        const user = result.rows[0];
+      const response = await axios.post("/api/login", { username, password });
+      if (response.status === 200) {
+        const user = response.data;
         setCurrentUser(user);
         setIsAuthenticated(true);
         localStorage.setItem("currentUser", JSON.stringify(user));
       } else {
-        alert("Invalid credentials");
+        setError("Invalid credentials");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("An error occurred during login. Please try again.");
+      setError("An error occurred during login. Please try again.");
     }
   };
 
@@ -88,14 +91,19 @@ const App: React.FC = () => {
             type="text"
             name="username"
             placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
           />
           <input
             type="password"
             name="password"
             placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="w-full p-2 mb-4 bg-black text-green-500 border border-green-500 rounded"
           />
+          {error && <p className="text-red-500 mb-4">{error}</p>}
           <button
             type="submit"
             className="w-full p-2 bg-green-700 text-white rounded hover:bg-green-600"
