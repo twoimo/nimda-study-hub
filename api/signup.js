@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export default async function handler(req, res) {
