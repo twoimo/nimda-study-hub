@@ -70,7 +70,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
       >
         <h2 className="text-2xl font-bold mb-4 text-center glitch-text flex items-center justify-center">
           {isLogin ? <Lock className="mr-2" /> : <UserPlus className="mr-2" />}
-          {isLogin ? "H4CK3R L0G1N" : "J01N TH3 3L1T3"}
+          {isLogin ? "H4CK3R L0G1N" : "J01N TH3 H4CK3R"}
         </h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <input

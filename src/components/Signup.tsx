@@ -59,7 +59,7 @@ const Signup: React.FC<SignupProps> = ({
         className="bg-gray-900 p-8 rounded-lg neon-border w-full max-w-md"
       >
         <h2 className="text-2xl font-bold mb-4 text-center glitch-text flex items-center justify-center">
-          <UserPlus className="mr-2" /> J01N TH3 3L1T3
+          <UserPlus className="mr-2" /> J01N TH3 H4CK3R
         </h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <input
