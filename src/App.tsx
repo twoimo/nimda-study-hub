@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -27,10 +27,32 @@ import Logout from "./components/Logout";
 
 const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      mobileMenuRef.current &&
+      !mobileMenuRef.current.contains(event.target as Node)
+    ) {
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <header className="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -43,6 +65,7 @@ const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
         </button>
       </div>
       <nav
+        ref={mobileMenuRef}
         className={`${
           isMobileMenuOpen ? "block" : "hidden"
         } md:block absolute md:relative top-16 left-0 w-full md:w-auto bg-black md:bg-transparent z-50 md:z-auto`}
