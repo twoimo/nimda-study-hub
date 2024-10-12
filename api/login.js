@@ -2,32 +2,37 @@ import { sql } from "@vercel/postgres";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const JWT_SECRET = "20241012"; // Manually set the JWT_SECRET
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
+    // Check if user exists
     const result = await sql`
-      SELECT id, username, password FROM users WHERE username = ${username}
+      SELECT id, username, password FROM users WHERE email = ${email}
     `;
 
     if (result.rows.length === 0) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
     const user = result.rows[0];
-    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
+    // Generate JWT token
     const token = jwt.sign(
       { userId: user.id, username: user.username },
-      process.env.JWT_SECRET,
+      JWT_SECRET, // Use the manually set JWT_SECRET
       { expiresIn: "1h" }
     );
 
