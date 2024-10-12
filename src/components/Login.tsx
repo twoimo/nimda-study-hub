@@ -26,7 +26,7 @@ const Login: React.FC<LoginProps> = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password }), // Use username instead of email
       });
 
       if (response.ok) {

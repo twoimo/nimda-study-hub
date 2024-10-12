@@ -9,16 +9,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
     // Check if user exists
     const result = await sql`
-      SELECT id, username, password FROM users WHERE email = ${email}
+      SELECT id, username, password FROM users WHERE username = ${username}
     `;
 
     if (result.rows.length === 0) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid username or password" });
     }
 
     const user = result.rows[0];
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid username or password" });
     }
 
     // Generate JWT token
