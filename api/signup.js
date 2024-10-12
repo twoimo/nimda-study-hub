@@ -2,6 +2,8 @@ import { sql } from "@vercel/postgres";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const JWT_SECRET = "20241012"; // Manually set the JWT_SECRET
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
@@ -43,7 +45,7 @@ export default async function handler(req, res) {
     // Generate JWT token
     const token = jwt.sign(
       { userId: newUser.id, username: newUser.username },
-      process.env.JWT_SECRET,
+      JWT_SECRET, // Use the manually set JWT_SECRET
       { expiresIn: "1h" }
     );
 
