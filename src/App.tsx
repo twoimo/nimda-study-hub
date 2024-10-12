@@ -61,7 +61,7 @@ const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
           N1MD4 LE4RN1NG HUB
         </h1>
         <button className="md:hidden text-green-500" onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={12} /> : <Menu size={12} />}
         </button>
       </div>
       <nav
