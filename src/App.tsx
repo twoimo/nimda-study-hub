@@ -34,7 +34,7 @@ const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
 
   return (
     <header className="flex flex-col md:flex-row justify-between items-center mb-8">
-      <div className="flex justify-between items-center w-full md:w-auto">
+      <div className="flex justify-between items-center w-full md:w-auto p-4 md:p-0">
         <h1 className="text-2xl md:text-3xl font-bold glitch-text md:mb-0">
           N1MD4 LE4RN1NG HUB
         </h1>
@@ -43,47 +43,49 @@ const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
         </button>
       </div>
       <nav
-        className={`flex flex-col md:flex-row items-center ${
+        className={`${
           isMobileMenuOpen ? "block" : "hidden"
-        } md:block`}
+        } md:block absolute md:relative top-16 left-0 w-full md:w-auto bg-black md:bg-transparent z-50 md:z-auto`}
       >
-        <Link
-          to="/"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/forum"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Forum
-        </Link>
-        <Link
-          to="/tools"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Tools
-        </Link>
-        <Link
-          to="/categories"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Categories
-        </Link>
-        <Link
-          to="/profile"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Profile
-        </Link>
-        <button
-          onClick={handleLogout}
-          className="flex items-center bg-red-700 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-        >
-          <LogOut className="mr-2" size={16} />
-          <span>Logout</span>
-        </button>
+        <div className="flex flex-col md:flex-row items-center p-4 md:p-0">
+          <Link
+            to="/"
+            className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          >
+            Dashboard
+          </Link>
+          <Link
+            to="/forum"
+            className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          >
+            Forum
+          </Link>
+          <Link
+            to="/tools"
+            className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          >
+            Tools
+          </Link>
+          <Link
+            to="/categories"
+            className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          >
+            Categories
+          </Link>
+          <Link
+            to="/profile"
+            className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          >
+            Profile
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="flex items-center bg-red-700 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+          >
+            <LogOut className="mr-2" size={16} />
+            <span>Logout</span>
+          </button>
+        </div>
       </nav>
     </header>
   );
