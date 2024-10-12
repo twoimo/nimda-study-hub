@@ -9,38 +9,51 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    // Check if user exists
-    const result = await sql`
-      SELECT id, username, password FROM users WHERE email = ${email}
+    // Check if username or email already exists
+    const existingUser = await sql`
+      SELECT id FROM users WHERE username = ${username} OR email = ${email}
     `;
 
-    if (result.rows.length === 0) {
-      return res.status(400).json({ message: "Invalid email or password" });
+    if (existingUser.rows.length > 0) {
+      return res
+        .status(400)
+        .json({ message: "Username or email already exists" });
     }
 
-    const user = result.rows[0];
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Compare password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
+    // Insert new user
+    const result = await sql`
+      INSERT INTO users (username, email, password)
+      VALUES (${username}, ${email}, ${hashedPassword})
+      RETURNING id, username
+    `;
+
+    const newUser = result.rows[0];
+
+    // Create user profile
+    await sql`
+      INSERT INTO user_profiles (id, full_name, bio, avatar, location, occupation)
+      VALUES (${newUser.id}, '', '', '', '', '')
+    `;
 
     // Generate JWT token
     const token = jwt.sign(
-      { userId: user.id, username: user.username },
-      JWT_SECRET, // Use the manually set JWT_SECRET
+      { userId: newUser.id, username: newUser.username },
+      JWT_SECRET,
       { expiresIn: "1h" }
     );
 
     res
-      .status(200)
-      .json({ token, user: { id: user.id, username: user.username } });
+      .status(201)
+      .json({ token, user: { id: newUser.id, username: newUser.username } });
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Signup error:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
