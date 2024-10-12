@@ -113,7 +113,6 @@ const App: React.FC = () => {
   };
 
   const showHeader = isAuthenticated && location.pathname !== "/auth";
-  const showFooter = isAuthenticated;
 
   return (
     <div className="min-h-screen bg-black text-green-500 p-4">
@@ -174,14 +173,12 @@ const App: React.FC = () => {
         </Routes>
       </main>
 
-      {showFooter && (
-        <footer className="mt-8 text-center text-xs md:text-sm">
-          <p>
-            Disclaimer: This platform is for educational purposes only. Engage
-            in ethical hacking and always obtain proper authorization.
-          </p>
-        </footer>
-      )}
+      <footer className="mt-8 text-center text-xs md:text-sm">
+        <p>
+          Disclaimer: This platform is for educational purposes only. Engage in
+          ethical hacking and always obtain proper authorization.
+        </p>
+      </footer>
     </div>
   );
 };
