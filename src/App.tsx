@@ -68,9 +68,9 @@ const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
         ref={mobileMenuRef}
         className={`${
           isMobileMenuOpen ? "block" : "hidden"
-        } md:block absolute md:relative top-16 left-0 w-full md:w-auto bg-black md:bg-transparent z-50 md:z-auto`}
+        } md:block absolute md:relative top-16 right-0 w-3/4 md:w-auto bg-black md:bg-transparent z-50 md:z-auto rounded-lg shadow-lg md:shadow-none`}
       >
-        <div className="flex flex-col md:flex-row items-center p-4 md:p-0 bg-black md:bg-transparent rounded-lg shadow-lg md:shadow-none">
+        <div className="flex flex-col md:flex-row items-center p-4 md:p-0">
           <Link
             to="/"
             className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
