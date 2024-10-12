@@ -25,38 +25,38 @@ import Logout from "./components/Logout";
 
 const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
   return (
-    <header className="flex flex-col md:flex-row justify-between items-center mb-8">
-      <h1 className="text-2xl md:text-3xl font-bold glitch-text mb-4 md:mb-0">
+    <header className="flex justify-between items-center mb-8">
+      <h1 className="text-2xl md:text-3xl font-bold glitch-text">
         N1MD4 LE4RN1NG HUB
       </h1>
-      <nav className="flex flex-col md:flex-row items-center">
+      <nav className="flex items-center">
         <Link
           to="/"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          className="mr-4 hover:text-neon-blue transition-colors duration-300"
         >
           Dashboard
         </Link>
         <Link
           to="/forum"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          className="mr-4 hover:text-neon-blue transition-colors duration-300"
         >
           Forum
         </Link>
         <Link
           to="/tools"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          className="mr-4 hover:text-neon-blue transition-colors duration-300"
         >
           Tools
         </Link>
         <Link
           to="/categories"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          className="mr-4 hover:text-neon-blue transition-colors duration-300"
         >
           Categories
         </Link>
         <Link
           to="/profile"
-          className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
+          className="mr-4 hover:text-neon-blue transition-colors duration-300"
         >
           Profile
         </Link>
