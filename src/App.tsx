@@ -34,8 +34,8 @@ const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
 
   return (
     <header className="flex flex-col md:flex-row justify-between items-center mb-8">
-      <div className="flex justify-between items-center w-full md:w-auto p-4 md:p-0">
-        <h1 className="text-2xl md:text-3xl font-bold glitch-text mb-4 md:mb-0 text-center md:text-left">
+      <div className="flex justify-between items-center w-full md:w-auto">
+        <h1 className="text-2xl md:text-3xl font-bold glitch-text mb-4 md:mb-0">
           N1MD4 LE4RN1NG HUB
         </h1>
         <button className="md:hidden text-green-500" onClick={toggleMobileMenu}>
