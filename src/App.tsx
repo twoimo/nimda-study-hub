@@ -26,7 +26,9 @@ import Logout from "./components/Logout";
 const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
   return (
     <header className="flex justify-between items-center mb-8">
-      <h1 className="text-2xl md:text-3xl font-bold glitch-text">N1MDA HUB</h1>
+      <h1 className="text-2xl md:text-3xl font-bold glitch-text">
+        N1MD4 LE4RN1NG HUB
+      </h1>
       <nav className="flex items-center">
         <Link
           to="/"
