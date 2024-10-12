@@ -14,8 +14,6 @@ import {
   Users,
   MessageSquare,
   LogOut,
-  Menu,
-  X,
 } from "lucide-react";
 import Dashboard from "./components/Dashboard";
 import Forum from "./components/Forum";
@@ -26,27 +24,12 @@ import AuthForm from "./components/AuthForm";
 import Logout from "./components/Logout";
 
 const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   return (
     <header className="flex flex-col md:flex-row justify-between items-center mb-8">
-      <div className="flex justify-between items-center w-full md:w-auto">
-        <h1 className="text-2xl md:text-3xl font-bold glitch-text mb-4 md:mb-0">
-          N1MD4 LE4RN1NG HUB
-        </h1>
-        <button className="md:hidden text-green-500" onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-      <nav
-        className={`flex flex-col md:flex-row items-center ${
-          isMobileMenuOpen ? "block" : "hidden"
-        } md:block`}
-      >
+      <h1 className="text-2xl md:text-3xl font-bold glitch-text mb-4 md:mb-0">
+        N1MD4 LE4RN1NG HUB
+      </h1>
+      <nav className="flex flex-col md:flex-row items-center">
         <Link
           to="/"
           className="mb-2 md:mb-0 md:mr-4 hover:text-neon-blue transition-colors duration-300"
