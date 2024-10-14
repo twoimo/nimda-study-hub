@@ -1,141 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --neon-green: #39ff14;
-  --neon-blue: #00ffff;
-  --neon-pink: #ff00ff;
-}
-
-body {
-  font-family: 'Fira Code', monospace;
-  background-color: #0a0a0a;
-  color: #e0e0e0;
-}
-
-@keyframes glitch {
-  0% {
-    text-shadow: 0.05em 0 0 var(--neon-green), -0.05em -0.025em 0 var(--neon-blue),
-      -0.025em 0.05em 0 var(--neon-pink);
-  }
-  14% {
-    text-shadow: 0.05em 0 0 var(--neon-green), -0.05em -0.025em 0 var(--neon-blue),
-      -0.025em 0.05em 0 var(--neon-pink);
-  }
-  15% {
-    text-shadow: -0.05em -0.025em 0 var(--neon-green), 0.025em 0.025em 0 var(--neon-blue),
-      -0.05em -0.05em 0 var(--neon-pink);
-  }
-  49% {
-    text-shadow: -0.05em -0.025em 0 var(--neon-green), 0.025em 0.025em 0 var(--neon-blue),
-      -0.05em -0.05em 0 var(--neon-pink);
-  }
-  50% {
-    text-shadow: 0.025em 0.05em 0 var(--neon-green), 0.05em 0 0 var(--neon-blue),
-      0 -0.05em 0 var(--neon-pink);
-  }
-  99% {
-    text-shadow: 0.025em 0.05em 0 var(--neon-green), 0.05em 0 0 var(--neon-blue),
-      0 -0.05em 0 var(--neon-pink);
-  }
-  100% {
-    text-shadow: -0.025em 0 0 var(--neon-green), -0.025em -0.025em 0 var(--neon-blue),
-      -0.025em -0.05em 0 var(--neon-pink);
-  }
-}
-
-.glitch-text {
-  animation: glitch 1s infinite;
-}
-
-.terminal-text {
-  font-family: 'Fira Code', monospace;
-  color: #00ff00;
-}
-
-.neon-border {
-  box-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green), 0 0 15px var(--neon-green), 0 0 20px var(--neon-green);
-}
-
-.cyberpunk-card {
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--neon-blue);
-  transition: all 0.3s ease;
-}
-
-.cyberpunk-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 15px var(--neon-blue);
-}
-
-.live-feed {
-  height: 200px;
-  overflow-y: scroll;
-  background-color: rgba(0, 0, 0, 0.8);
-  border: 1px solid var(--neon-green);
-}
-
-.live-feed::-webkit-scrollbar {
-  width: 5px;
-}
-
-.live-feed::-webkit-scrollbar-thumb {
-  background-color: var(--neon-green);
-}
-
-.easter-egg {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.easter-egg:hover {
-  color: var(--neon-pink);
-}
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @media print {
+  @page {
+    margin: 0;
+  }
   body {
-    background-color: white;
-    color: black;
+    margin: 1cm;
   }
-
-  .cyberpunk-card {
-    background: white;
-    border: none;
-    box-shadow: none;
-  }
-
-  .print\\:hidden {
+  header,
+  .print-hide {
     display: none !important;
   }
-
-  .print\\:text-black {
-    color: black !important;
-  }
-
-  .print\\:text-gray-600 {
-    color: #4b5563 !important;
-  }
-
-  .print\\:text-gray-700 {
-    color: #374151 !important;
-  }
-
-  .print\\:bg-white {
-    background-color: white !important;
-  }
-
-  .print\\:bg-gray-200 {
-    background-color: #e5e7eb !important;
-  }
-
-  .print\\:text-green-700 {
-    color: #15803d !important;
-  }
-
-  .print\\:border-gray-300 {
-    border-color: #d1d5db !important;
+  .print-break-inside-avoid {
+    break-inside: avoid;
   }
 }
+
+/* Add any additional custom styles here */

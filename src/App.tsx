@@ -14,6 +14,8 @@ import {
   Users,
   MessageSquare,
   LogOut,
+  Menu,
+  X,
 } from "lucide-react";
 import Dashboard from "./components/Dashboard";
 import Forum from "./components/Forum";
@@ -24,51 +26,71 @@ import AuthForm from "./components/AuthForm";
 import Logout from "./components/Logout";
 
 const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <header className="flex justify-between items-center mb-8">
+    <header className="flex justify-between items-center mb-8 print:hidden">
       <h1 className="text-2xl md:text-3xl font-bold glitch-text">
         N1MD4 LE4RN1NG HUB
       </h1>
-      <nav className="flex items-center">
-        <Link
-          to="/"
-          className="mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/forum"
-          className="mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Forum
-        </Link>
-        <Link
-          to="/tools"
-          className="mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Tools
-        </Link>
-        <Link
-          to="/categories"
-          className="mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Categories
-        </Link>
-        <Link
-          to="/profile"
-          className="mr-4 hover:text-neon-blue transition-colors duration-300"
-        >
-          Profile
-        </Link>
-        <button
-          onClick={handleLogout}
-          className="flex items-center bg-red-700 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-        >
-          <LogOut className="mr-2" size={16} />
-          <span>Logout</span>
-        </button>
+      <nav className="hidden md:flex items-center">
+        <NavLinks handleLogout={handleLogout} />
       </nav>
+      <div className="md:hidden">
+        <button onClick={toggleMenu} className="text-white focus:outline-none">
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+      {isMenuOpen && (
+        <div className="absolute top-16 right-0 bg-gray-800 p-4 rounded-lg shadow-lg z-50">
+          <nav className="flex flex-col space-y-2">
+            <NavLinks handleLogout={handleLogout} mobile />
+          </nav>
+        </div>
+      )}
     </header>
+  );
+};
+
+const NavLinks: React.FC<{ handleLogout: () => void; mobile?: boolean }> = ({
+  handleLogout,
+  mobile,
+}) => {
+  const linkClass = mobile
+    ? "text-white hover:text-neon-blue transition-colors duration-300"
+    : "mr-4 hover:text-neon-blue transition-colors duration-300";
+
+  return (
+    <>
+      <Link to="/" className={linkClass}>
+        Dashboard
+      </Link>
+      <Link to="/forum" className={linkClass}>
+        Forum
+      </Link>
+      <Link to="/tools" className={linkClass}>
+        Tools
+      </Link>
+      <Link to="/categories" className={linkClass}>
+        Categories
+      </Link>
+      <Link to="/profile" className={linkClass}>
+        Profile
+      </Link>
+      <button
+        onClick={handleLogout}
+        className={`flex items-center bg-red-700 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 ${
+          mobile ? "mt-2" : ""
+        }`}
+      >
+        <LogOut className="mr-2" size={16} />
+        <span>Logout</span>
+      </button>
+    </>
   );
 };
 
@@ -177,7 +199,7 @@ const App: React.FC = () => {
       </main>
 
       {showFooter && (
-        <footer className="mt-8 text-center text-xs md:text-sm">
+        <footer className="mt-8 text-center text-xs md:text-sm print:hidden">
           <p>
             Disclaimer: This platform is for educational purposes only. Engage
             in ethical hacking and always obtain proper authorization.
