@@ -35,7 +35,7 @@ const Header: React.FC<{ handleLogout: () => void }> = ({ handleLogout }) => {
   return (
     <header className="flex justify-between items-center mb-8 print:hidden">
       <h1 className="text-2xl md:text-3xl font-bold glitch-text">
-        N1MD4 LE4RN1NG HUB
+        N1MD4 STU3Y HU8
       </h1>
       <nav className="hidden md:flex items-center">
         <NavLinks handleLogout={handleLogout} />
